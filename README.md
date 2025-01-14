@@ -19,7 +19,7 @@ from keras.layers import Embedding, Conv1D, GlobalMaxPooling1D, Dense
 from keras.layers import LSTM
 
 # Load data
-df = pd.read_csv('data.csv')
+df = pd.read_txt('meta.txt')
 
 # Pre-processing ('stopwords')
 stop_words = set(stopwords.words('english'))
@@ -234,7 +234,7 @@ from keras.preprocessing.sequence import pad_sequences
 from keras.preprocessing.text import Tokenizer
 
 # Load data
-df = pd.read_csv('data.csv')
+df = pd.read_csv('meta.txt')
 
 # Pre-processing
 nltk.download('punkt')
