@@ -486,7 +486,7 @@ import tkinter as tk
 from tkinter import scrolledtext
 
 # Load the text data
-text_data = "meta.txt"
+text_data = "Meta.txt"
 
 with open(text_data, 'r') as file:
     text_content = file.read()
