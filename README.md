@@ -475,3 +475,74 @@ Or would you like to discuss potential solutions to address these blockages?As a
 6. Retirees: 5%
 
 Keep in mind that these estimates are approximate, as my interactions are constantly evolving
+
+
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.naive_bayes import MultinomialNB
+import tkinter as tk
+from tkinter import scrolledtext
+
+# Load the text data
+text_data = "/storage/emulated/0/Download/GRAEi-LLM-main/GRAEi-LLM-main/Data/Meta.txt"
+
+with open(text_data, 'r') as file:
+    text_content = file.read()
+
+# Preprocess the text data
+nltk.download('punkt')
+nltk.download('stopwords')
+stop_words = set(stopwords.words('english'))
+
+def preprocess_text(text):
+    tokens = word_tokenize(text.lower())
+    tokens = [token for token in tokens if token.isalpha() and token not in stop_words]
+    return ' '.join(tokens)
+
+preprocessed_text = [preprocess_text(text_content)]
+
+# Create a vocabulary
+vectorizer = TfidfVectorizer()
+X = vectorizer.fit_transform(preprocessed_text)
+
+# Train a model
+clf = MultinomialNB()
+clf.fit(X, [0])  
+
+def handle_input(user_input):
+    new_text_preprocessed = preprocess_text(user_input)
+    new_text_vectorized = vectorizer.transform([new_text_preprocessed])
+    predicted_label = clf.predict(new_text_vectorized)
+     
+    responses = { clf
+    }
+    
+    return responses.get(predicted_label[0], "I'm not sure I understand this query.")
+#process
+
+class ChatbotUI:
+    def __init__(self):
+        self.window = tk.Tk()
+        self.window.title("Science Lab Chatbot")
+
+        self.chat_log = scrolledtext.ScrolledText(self.window, width=50, height=10)
+        self.chat_log.pack(padx=10, pady=10)
+
+        self.input_field = tk.Entry(self.window, width=50)
+        self.input_field.pack(padx=10, pady=10)
+
+        self.send_button = tk.Button(self.window, text="Send", command=self.send_message)
+        self.send_button.pack(padx=10, pady=10)
+
+    def send_message(self):
+        user_input = self.input_field.get()
+        self.input_field.delete(0, tk.END)
+
+        response = handle_input(user_input)
+
+        self.chat_log.insert(tk.END, "You: " + user_input + "\n")
+        self.chat_log.insert(tk.END, "Bot: " + response + "\n")
+        self.chat_log.see(tk.END)
+
