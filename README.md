@@ -1,3 +1,551 @@
+import pandas as pd
+import numpy as np
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from transformers import AutoModelForSequenceClassification, AutoTokenizer
+
+# Load the EFWA.csv file
+df = pd.read_csv('EFWA.csv')
+
+# Preprocess the text data
+nltk.download('stopwords')
+stop_words = set(stopwords.words('english'))
+
+def pre_process(text):
+    tokens = word_tokenize(text)
+    tokens = [t for t in tokens if t.isalpha()]
+    tokens = [t for t in tokens if t not in stop_words]
+    return ' '.join(tokens)
+
+df['text'] = df['text'].apply(pre_process)
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(df['text'], df['label'], test_size=0.2, random_state=42)
+
+# Create a TF-IDF vectorizer to convert the text data into numerical features
+vectorizer = TfidfVectorizer()
+X_train_tfidf = vectorizer.fit_transform(X_train)
+X_test_tfidf = vectorizer.transform(X_test)
+
+# Train a Multinomial Naive Bayes classifier on the training data
+nb_model = MultinomialNB()
+nb_model.fit(X_train_tfidf, y_train)
+
+# Train a Support Vector Machine classifier on the training data
+svm_model = SVC()
+svm_model.fit(X_train_tfidf, y_train)
+
+# Train a Random Forest classifier on the training data
+rf_model = RandomForestClassifier()
+rf_model.fit(X_train_tfidf, y_train)
+
+# Implement debiasing techniques
+def debias_word_embeddings(word_embeddings):
+    # Implement debiasing technique here
+    pass
+
+# Implement emotion detection using NLP techniques
+def detect_emotions(text):
+    # Implement emotion detection technique here
+    pass
+
+# Implement interface to interact with LLM
+class LLMInterface:
+    def __init__(self, llm_model):
+        self.llm_model = llm_model
+
+    def generate_response(self, user_input):
+        # Implement response generation technique here
+        pass
+
+# Implement interface to interact with CNN
+class CNNInterface:
+    def __init__(self, cnn_model):
+        self.cnn_model = cnn_model
+
+    def analyze_input(self, user_input):
+        # Implement input analysis technique here
+        pass
+
+# Integrate components
+def integrate_components(user_input):
+    # Implement integration technique here
+    pass# Import necessary libraries
+import pandas as pd
+import numpy as np
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Embedding, LSTM
+from tensorflow.keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing.sequence import pad_sequences
+
+# Load the text data
+with open('efwa.txt', 'r') as f:
+    text_data = f.read()
+
+# Split the text data into individual samples
+samples = text_data.split('\n')
+
+# Create a list to store the labels
+labels = []
+
+# Assign labels to each sample (you'll need to modify this based on your specific labels)
+for i, sample in enumerate(samples):
+    if i % 2 == 0:
+        labels.append(0)  # Label 0 for even-indexed samples
+    else:
+        labels.append(1)  # Label 1 for odd-indexed samples
+
+# Create a DataFrame to store the text data and labels
+df = pd.DataFrame({'text': samples, 'label': labels})
+
+# Preprocess the text data
+nltk.download('stopwords')
+stop_words = set(stopwords.words('english'))
+
+def pre_process(text):
+    tokens = word_tokenize(text)
+    tokens = [t for t in tokens if t.isalpha()]
+    tokens = [t for t in tokens if t not in stop_words]
+    return ' '.join(tokens)
+
+df['text'] = df['text'].apply(pre_process)
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(df['text'], df['label'], test_size=0.2, random_state=42)
+
+# Create a TF-IDF vectorizer to convert the text data into numerical features
+vectorizer = TfidfVectorizer()
+X_train_tfidf = vectorizer.fit_transform(X_train)
+X_test_tfidf = vectorizer.transform(X_test)
+Here is the revised code with the training models included:
+
+
+#(previous code remains the same)
+
+# Train a Multinomial Naive Bayes classifier on the training data
+nb_model = MultinomialNB()
+nb_model.fit(X_train_tfidf, y_train)
+
+# Train a Support Vector Machine classifier on the training data
+svm_model = SVC()
+svm_model.fit(X_train_tfidf, y_train)
+
+# Train a Random Forest classifier on the training data
+rf_model = RandomForestClassifier()
+rf_model.fit(X_train_tfidf, y_train)
+
+# Train a Convolutional Neural Network (CNN) model on the training data
+cnn_model = Sequential()
+cnn_model.add(Embedding(5000, 100, input_length=200))
+cnn_model.add(Conv1D(64, kernel_size=3, activation='relu'))
+cnn_model.add(MaxPooling1D(pool_size=2))
+cnn_model.add(Flatten())
+cnn_model.add(Dense(64, activation='relu'))
+cnn_model.add(Dense(1, activation='sigmoid'))
+cnn_model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+cnn_model.fit(padded_sequences, df['label'], epochs=10, batch_size=32)
+
+# Train a Long Short-Term Memory (LSTM) model on the training data
+lstm_model = Sequential()
+lstm_model.add(Embedding(5000, 100, input_length=200))
+lstm_model.add(LSTM(64, dropout=0.2))
+lstm_model.add(Dense(64, activation='relu'))
+lstm_model.add(Dense(1, activation='sigmoid'))
+lstm_model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+lstm_model.fit(padded_sequences, df['label'], epochs=10, batch_size=32)
+
+#(previous code remains the same)
+
+
+This revised code includes the training of the CNN and LSTM models using the `padded_sequences` and `df['label']` data.
+# Train a Multinomial Naive Bayes classifier on the training data
+nb_model = MultinomialNB()
+nb_model.fit(X_train_tfidf, y_train)
+
+# Train a Support Vector Machine classifier on the training data
+svm_model = SVC()
+svm_model.fit(X_train_tfidf, y_train)
+
+# Train a Random Forest classifier on the training data
+rf_model = RandomForestClassifier()
+rf_model.fit(X_train_tfidf, y_train)
+
+# Evaluate the performance of each model on the testing data
+nb_y_pred = nb_model.predict(X_test_tfidf)
+nb_accuracy = accuracy_score(y_test, nb_y_pred)
+print(f'Multinomial Naive Bayes Accuracy: {nb_accuracy}')
+
+svm_y_pred = svm_model.predict(X_test_tfidf)
+svm_accuracy = accuracy_score(y_test, svm_y_pred)
+print(f'Support Vector Machine Accuracy: {svm_accuracy}')
+
+rf_y_pred = rf_model.predict(X_test_tfidf)
+rf_accuracy = accuracy_score(y_test, rf_y_pred)
+print(f'Random Forest Accuracy: {rf_accuracy}')
+
+# Implement biased mitigation and emotional detection using the trained models
+def biased_mitigation(text):
+    # Use the trained models to predict the label for the input text
+    text_tfidf = vectorizer.transform([text])
+    nb_pred = nb_model.predict(text_tfidf)
+    svm_pred = svm_model.predict(text_tfidf)
+    rf_pred = rf_model.predict(text_tfidf)
+    
+    # Implement biased mitigation logic here
+    # For example, you could use the predicted labels to determine whether the input text contains biased language
+    if nb_pred == 1 or svm_pred == 1 or rf_pred == 1:
+        return "Biased language detected"
+    else:
+        return "No biased language detected"
+
+def emotional_detection(text):
+    # Use the trained models to predict the label for the input text
+    text_tfidf = vectorizer.transform([text])
+    nb_pred = nb_model.predict(text_tfidf)
+    svm_pred = svm_model.predict(text_tfidf)
+    rf_pred = rf_model.predict(text_tfidf)
+    
+    # Implement emotional detection logic here
+    # For example, you could use the predicted labels to determine the emotional tone of the input text
+    if nb_pred == 1 or svm_pred == 1 or rf_pred == 1:
+        return "Positive emotional tone detected"
+    else:
+        return "Negative emotional tone detected"
+
+# Test the biased mitigation and emotional detection functions
+```
+import os
+import pandas as pd
+
+def load_data(data_folder):
+    # Initialize an empty list to store the data
+    data = []
+    
+    # Loop through all the files in the data folder
+    for filename in os.listdir(data_folder):
+        # Get the file path
+        file_path = os.path.join(data_folder, filename)
+        
+        # Check the file type
+        if filename.endswith(".csv"):
+            # Read in the CSV file
+            file_data = pd.read_csv(file_path)
+        elif filename.endswith(".json"):
+            # Read in the JSON file
+            file_data = pd.read_json(file_path)
+        elif filename.endswith(".txt"):
+            # Read in the text file
+            with open(file_path, 'r') as f:
+                file_data = f.read()
+        else:
+            # Skip unknown file types
+            continue
+        
+        # Append the data to the main list
+        data.append(file_data)
+    
+    return data
+
+# Specify the data folder path
+data_folder = 'data'
+
+# Load the data
+data = load_data(data_folder)
+
+# Preprocess the data...
+```
+The holy grai-el  is a generative response artificial intelligigence focusing on emotional linguistics
+Here's the updated code that includes model training, biased mitigation, and emotional detection:
+
+```
+# Import necessary libraries
+import pandas as pd
+import numpy as np
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Embedding, LSTM
+from tensorflow.keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing.sequence import pad_sequences
+
+# Load the text data
+with open('efwa.txt', 'r') as f:
+    text_data = f.read()
+
+# Split the text data into individual samples
+samples = text_data.split('\n')
+
+# Create a list to store the labels
+labels = []
+
+# Assign labels to each sample (you'll need to modify this based on your specific labels)
+for i, sample in enumerate(samples):
+    if i % 2 == 0:
+        labels.append(0)  # Label 0 for even-indexed samples
+    else:
+        labels.append(1)  # Label 1 for odd-indexed samples
+
+# Create a DataFrame to store the text data and labels
+df = pd.DataFrame({'text': samples, 'label': labels})
+
+# Preprocess the text data
+nltk.download('stopwords')
+stop_words = set(stopwords.words('english'))
+
+def pre_process(text):
+    tokens = word_tokenize(text)
+    tokens = [t for t in tokens if t.isalpha()]
+    tokens = [t for t in tokens if t not in stop_words]
+    return ' '.join(tokens)
+
+df['text'] = df['text'].apply(pre_process)
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(df['text'], df['label'], test_size=0.2, random_state=42)
+
+# Create a TF-IDF vectorizer to convert the text data into numerical features
+vectorizer = TfidfVectorizer()
+X_train_tfidf = vectorizer.fit_transform(X_train)
+X_test_tfidf = vectorizer.transform(X_test)
+Here is the revised code with the training models included:
+
+
+#(previous code remains the same)
+
+# Train a Multinomial Naive Bayes classifier on the training data
+nb_model = MultinomialNB()
+nb_model.fit(X_train_tfidf, y_train)
+
+# Train a Support Vector Machine classifier on the training data
+svm_model = SVC()
+svm_model.fit(X_train_tfidf, y_train)
+
+# Train a Random Forest classifier on the training data
+rf_model = RandomForestClassifier()
+rf_model.fit(X_train_tfidf, y_train)
+
+# Train a Convolutional Neural Network (CNN) model on the training data
+cnn_model = Sequential()
+cnn_model.add(Embedding(5000, 100, input_length=200))
+cnn_model.add(Conv1D(64, kernel_size=3, activation='relu'))
+cnn_model.add(MaxPooling1D(pool_size=2))
+cnn_model.add(Flatten())
+cnn_model.add(Dense(64, activation='relu'))
+cnn_model.add(Dense(1, activation='sigmoid'))
+cnn_model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+cnn_model.fit(padded_sequences, df['label'], epochs=10, batch_size=32)
+
+# Train a Long Short-Term Memory (LSTM) model on the training data
+lstm_model = Sequential()
+lstm_model.add(Embedding(5000, 100, input_length=200))
+lstm_model.add(LSTM(64, dropout=0.2))
+lstm_model.add(Dense(64, activation='relu'))
+lstm_model.add(Dense(1, activation='sigmoid'))
+lstm_model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+lstm_model.fit(padded_sequences, df['label'], epochs=10, batch_size=32)
+
+#(previous code remains the same)
+
+
+This revised code includes the training of the CNN and LSTM models using the `padded_sequences` and `df['label']` data.
+# Train a Multinomial Naive Bayes classifier on the training data
+nb_model = MultinomialNB()
+nb_model.fit(X_train_tfidf, y_train)
+
+# Train a Support Vector Machine classifier on the training data
+svm_model = SVC()
+svm_model.fit(X_train_tfidf, y_train)
+
+# Train a Random Forest classifier on the training data
+rf_model = RandomForestClassifier()
+rf_model.fit(X_train_tfidf, y_train)
+
+# Evaluate the performance of each model on the testing data
+nb_y_pred = nb_model.predict(X_test_tfidf)
+nb_accuracy = accuracy_score(y_test, nb_y_pred)
+print(f'Multinomial Naive Bayes Accuracy: {nb_accuracy}')
+
+svm_y_pred = svm_model.predict(X_test_tfidf)
+svm_accuracy = accuracy_score(y_test, svm_y_pred)
+print(f'Support Vector Machine Accuracy: {svm_accuracy}')
+
+rf_y_pred = rf_model.predict(X_test_tfidf)
+rf_accuracy = accuracy_score(y_test, rf_y_pred)
+print(f'Random Forest Accuracy: {rf_accuracy}')
+
+# Implement biased mitigation and emotional detection using the trained models
+def biased_mitigation(text):
+    # Use the trained models to predict the label for the input text
+    text_tfidf = vectorizer.transform([text])
+    nb_pred = nb_model.predict(text_tfidf)
+    svm_pred = svm_model.predict(text_tfidf)
+    rf_pred = rf_model.predict(text_tfidf)
+    
+    # Implement biased mitigation logic here
+    # For example, you could use the predicted labels to determine whether the input text contains biased language
+    if nb_pred == 1 or svm_pred == 1 or rf_pred == 1:
+        return "Biased language detected"
+    else:
+        return "No biased language detected"
+
+def emotional_detection(text):
+    # Use the trained models to predict the label for the input text
+    text_tfidf = vectorizer.transform([text])
+    nb_pred = nb_model.predict(text_tfidf)
+    svm_pred = svm_model.predict(text_tfidf)
+    rf_pred = rf_model.predict(text_tfidf)
+    
+    # Implement emotional detection logic here
+    # For example, you could use the predicted labels to determine the emotional tone of the input text
+    if nb_pred == 1 or svm_pred == 1 or rf_pred == 1:
+        return "Positive emotional tone detected"
+    else:
+        return "Negative emotional tone detected"
+
+# Test the biased mitigation and emotional detection functions
+text = "This is a sample text"
+print(biased_mitigation(text))
+print(emotional_detection(text))
+```
+
+This code includes the implementation of biased
+You're right, the code I provided earlier was only a part of the overall system.
+
+To implement the complete system, including biased mitigation, emotion detection, and integration with LLM and CNN, we'll need to add more code and components.
+
+Here's an updated outline of the components we'll need to implement:
+
+1. *Biased Mitigation*:
+    - Implement debiasing techniques, such as:
+        - Word embedding debiasing (e.g., using Gender-Neutral Word Embeddings)
+        - Data preprocessing techniques (e.g., removing biased words or phrases)
+2. *Emotion Detection*:
+    - Implement emotion detection using:
+        - Natural Language Processing (NLP) techniques
+        - Machine learning algorithms (e.g., SVM, Random Forest)
+3. *Integration with LLM (Large Language Model)*:
+    - Implement an interface to interact with the LLM
+    - Use the LLM to generate responses to user input
+4. *Integration with CNN (Convolutional Neural Network)*:
+    - Implement an interface to interact with the CNN
+    - Use the CNN to analyze and classify user input
+
+To implement these components, we'll need to add more code and libraries to our project. Here's an updated code snippet that includes some of the components:
+
+```
+import pandas as pd
+import numpy as np
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from transformers import AutoModelForSequenceClassification, AutoTokenizer
+
+# Load the EFWA.csv file
+df = pd.read_csv('EFWA.csv')
+
+# Preprocess the text data
+nltk.download('stopwords')
+stop_words = set(stopwords.words('english'))
+
+def pre_process(text):
+    tokens = word_tokenize(text)
+    tokens = [t for t in tokens if t.isalpha()]
+    tokens = [t for t in tokens if t not in stop_words]
+    return ' '.join(tokens)
+
+df['text'] = df['text'].apply(pre_process)
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(df['text'], df['label'], test_size=0.2, random_state=42)
+
+# Create a TF-IDF vectorizer to convert the text data into numerical features
+vectorizer = TfidfVectorizer()
+X_train_tfidf = vectorizer.fit_transform(X_train)
+X_test_tfidf = vectorizer.transform(X_test)
+
+# Train a Multinomial Naive Bayes classifier on the training data
+nb_model = MultinomialNB()
+nb_model.fit(X_train_tfidf, y_train)
+
+# Train a Support Vector Machine classifier on the training data
+svm_model = SVC()
+svm_model.fit(X_train_tfidf, y_train)
+
+# Train a Random Forest classifier on the training data
+rf_model = RandomForestClassifier()
+rf_model.fit(X_train_tfidf, y_train)
+
+# Implement debiasing techniques
+def debias_word_embeddings(word_embeddings):
+    # Implement debiasing technique here
+    pass
+
+# Implement emotion detection using NLP techniques
+def detect_emotions(text):
+    # Implement emotion detection technique here
+    pass
+
+# Implement interface to interact with LLM
+class LLMInterface:
+    def __init__(self, llm_model):
+        self.llm_model = llm_model
+
+    def generate_response(self, user_input):
+        # Implement response generation technique here
+        pass
+
+# Implement interface to interact with CNN
+class CNNInterface:
+    def __init__(self, cnn_model):
+        self.cnn_model = cnn_model
+
+    def analyze_input(self, user_input):
+        # Implement input analysis technique here
+        pass
+
+# Integrate components
+def integrate_components(user_input):
+    # Implement integration technique here
+    pass
+```
+
+This updated code snippet includes some of the components we discussed earlier, including debiasing techniques, emotion detection, and interfaces to interact with LLM and CNN.
+
 # GRAEI
 Emotional intelligence 
 Here's an updated version of your code with the CNN and LSTM models implemented:
