@@ -4,7 +4,7 @@ numpy
 scikit-learn
 nltk
 keras
-tensorflow==2.10.0  # Ensure a compatible version
+tensorflow==2.10.0  # Compatible TensorFlow version for Python 3.9
 torch
 transformers
 gdown
