@@ -4,7 +4,8 @@ numpy
 scikit-learn
 nltk
 keras
-tensorflow==2.10.0
+tf-nightly
+tensorflow
 torch
 transformers
 gdown
