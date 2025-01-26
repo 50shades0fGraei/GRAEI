@@ -9,4 +9,4 @@
   status = 200
 
 [build.environment]
-  PYTHON_VERSION = "3.13"
+  PYTHON_VERSION = "3.10.11"
