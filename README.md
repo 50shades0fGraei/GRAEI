@@ -92,6 +92,8 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+pip install tensorflow==2.10.0
+```[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://sqlpey.com/python/solved-how-to-fix-tensorflow-not-found-when-using-pip/?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "2")
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Embedding, LSTM
 from tensorflow.keras.preprocessing.text import Tokenizer
