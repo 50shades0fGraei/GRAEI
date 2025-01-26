@@ -1,10 +1,10 @@
+flask
 pandas
 numpy
-nltk
 scikit-learn
+nltk
 keras
-tensorflow
+tensorflow==2.10.0  # Ensure a compatible version
 torch
 transformers
 gdown
-Flask
