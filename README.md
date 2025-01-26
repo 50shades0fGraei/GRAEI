@@ -1,5 +1,8 @@
 python-3.9.18
 mise settings set python.compile false
+rm -rf ~/.cache/mise
+rm -rf ~/.local/share/mise
+rm -rf ~/.config/mise
 import pandas as pd
 import numpy as np
 import nltk
