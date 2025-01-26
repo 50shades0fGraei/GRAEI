@@ -1,4 +1,5 @@
 python-3.9.18
+mise settings set python.compile false
 import pandas as pd
 import numpy as np
 import nltk
