@@ -1,3 +1,7 @@
+# Step 1: Install Dependencies
+!pip install flask chatterbot chatterbot_corpus flask-ngrok
+
+# Step 2: Set Up Flask App
 from flask import Flask, request, jsonify
 from chatterbot import ChatBot
 from chatterbot.trainers import ChatterBotCorpusTrainer
