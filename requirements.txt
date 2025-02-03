@@ -9,3 +9,6 @@ tensorflow
 torch
 transformers
 gdown
+chatterbox
+ngrok
+
