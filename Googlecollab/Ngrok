@@ -1,0 +1,21 @@
+from flask import Flask, request, jsonify
+from chatterbot import ChatBot
+from chatterbot.trainers import ChatterBotCorpusTrainer
+from flask_ngrok import run_with_ngrok
+
+app = Flask(__name__)
+
+# Initialize ChatterBot
+chatbot = ChatBot('MyBot')
+trainer = ChatterBotCorpusTrainer(chatbot)
+trainer.train("chatterbot.corpus.english")
+
+@app.route('/chat', methods=['POST'])
+def chat():
+    user_input = request.json.get('message')
+    bot_response = chatbot.get_response(user_input)
+    return jsonify({'response': str(bot_response)})
+
+if __name__ == '__main__':
+    run_with_ngrok(app)  # Start ngrok when app is run
+    app.run()
